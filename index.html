@@ -185,6 +185,70 @@
             background: var(--accent);
         }
 
+        .visually-hidden {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+
+        .subscribe {
+            display: flex;
+            gap: 8px;
+            margin-top: 1.5rem;
+            max-width: 58ch;
+        }
+
+        .subscribe input[type="email"] {
+            flex: 1;
+            min-width: 0;
+            min-height: 44px;
+            padding: 0 0.85rem;
+            font: inherit;
+            color: var(--text);
+            background: var(--background);
+            border: 1px solid var(--rule);
+            border-radius: 6px;
+        }
+
+        .subscribe input[type="email"]::placeholder {
+            color: var(--muted);
+        }
+
+        .subscribe input[type="email"]:focus-visible,
+        .subscribe button:focus-visible {
+            outline: 2px solid var(--accent);
+            outline-offset: 2px;
+        }
+
+        .subscribe button {
+            min-height: 44px;
+            padding: 0 1rem;
+            font: inherit;
+            font-weight: 600;
+            color: var(--background);
+            background: var(--accent);
+            border: 0;
+            border-radius: 6px;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+
+        .subscribe button:hover {
+            background: var(--accent-hover);
+        }
+
+        .subscribe-note {
+            margin-top: 0.6rem;
+            font-size: 0.85rem;
+            color: var(--muted);
+        }
+
         @media (max-width: 480px) {
             body {
                 font-size: 16px;
@@ -193,6 +257,10 @@
             main {
                 padding-top: 72px;
                 padding-bottom: 56px;
+            }
+
+            .subscribe {
+                flex-direction: column;
             }
         }
 
@@ -298,6 +366,29 @@
                     — A project manager's cautionary tale.
                 </li>
             </ul>
+
+            <form
+                class="subscribe"
+                id="subscribe-form"
+                action="https://salamituns.substack.com/subscribe"
+                method="get"
+                target="_blank"
+            >
+                <label class="visually-hidden" for="subscribe-email">Email address</label>
+                <input
+                    id="subscribe-email"
+                    name="email"
+                    type="email"
+                    autocomplete="email"
+                    inputmode="email"
+                    required
+                    placeholder="Email address"
+                >
+                <input type="hidden" name="simple" value="true">
+                <input type="hidden" name="next" value="https://salamituns.com">
+                <button type="submit">Subscribe</button>
+            </form>
+            <p class="subscribe-note">New posts by email. Confirm via the message Substack sends.</p>
         </section>
 
         <section>
