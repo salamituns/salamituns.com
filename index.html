@@ -96,6 +96,44 @@
             max-width: 54ch;
         }
 
+        .project-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 12px;
+        }
+
+        .project-card {
+            border: 1px solid var(--rule);
+            border-radius: 6px;
+            padding: 14px 16px;
+        }
+
+        .project-card h3 {
+            margin: 0;
+            font-size: 0.95rem;
+            font-weight: 700;
+            letter-spacing: -0.015em;
+            line-height: 1.3;
+            text-transform: none;
+            color: var(--text);
+        }
+
+        .project-card h3 a {
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        .project-card h3 a:hover {
+            color: var(--accent);
+        }
+
+        .project-card p {
+            margin-top: 0.45rem;
+            font-size: 0.85rem;
+            line-height: 1.5;
+            color: var(--muted);
+        }
+
         ul {
             list-style: none;
         }
@@ -262,6 +300,10 @@
             .subscribe {
                 flex-direction: column;
             }
+
+            .project-grid {
+                grid-template-columns: 1fr;
+            }
         }
 
         .theme-toggle {
@@ -333,13 +375,15 @@
 
         <section>
             <h2>Projects</h2>
-            <ul class="entries">
-                <li>
-                    <a href="https://grid.salamituns.com">Data Center Site Selection Engine</a>
-                    — A spatial clustering tool that ranks viable land for 100MW+ hyperscale
-                    development by intersecting ERCOT grid capacity with USGS groundwater data.
-                </li>
-            </ul>
+            <div class="project-grid">
+                <article class="project-card">
+                    <h3>
+                        <a href="https://grid.salamituns.com">Data Center Site Selection Engine</a>
+                    </h3>
+                    <p>A spatial clustering tool that ranks viable land for 100MW+ hyperscale
+                    development by intersecting ERCOT grid capacity with USGS groundwater data.</p>
+                </article>
+            </div>
         </section>
 
         <section>
