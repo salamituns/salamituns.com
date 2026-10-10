@@ -40,3 +40,6 @@ temp/
 *.bak
 *.backup
 *copy*.html
+
+# Playwright MCP output
+.playwright-mcp/
