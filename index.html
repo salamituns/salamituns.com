@@ -24,19 +24,22 @@
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "Person",
-      "name": "Olatunde Salami",
-      "url": "https://salamituns.com",
-      "jobTitle": "Geoscientist and Software Engineer",
-      "sameAs": [
-        "https://www.linkedin.com/in/salamituns/",
-        "https://github.com/salamituns",
-        "https://scholar.google.com/citations?user=IRqmZIQAAAAJ&hl=en",
-        "https://orcid.org/0009-0002-8388-9732",
-        "https://uni-bremen.academia.edu/OlatundeSalami",
-        "https://www.researchgate.net/profile/Olatunde-Salami-2"
-      ],
-      "author": [
+      "@graph": [
+        {
+          "@type": "Person",
+          "@id": "https://salamituns.com/#person",
+          "name": "Olatunde Salami",
+          "url": "https://salamituns.com",
+          "jobTitle": "Geoscientist and Software Engineer",
+          "sameAs": [
+            "https://www.linkedin.com/in/salamituns/",
+            "https://github.com/salamituns",
+            "https://scholar.google.com/citations?user=IRqmZIQAAAAJ&hl=en",
+            "https://orcid.org/0009-0002-8388-9732",
+            "https://uni-bremen.academia.edu/OlatundeSalami",
+            "https://www.researchgate.net/profile/Olatunde-Salami-2"
+          ]
+        },
         {
           "@type": "Book",
           "name": "Energy Justice in the Renewable Transition",
@@ -46,7 +49,10 @@
             "@type": "Organization",
             "name": "LAP LAMBERT Academic Publishing"
           },
-          "url": "https://www.amazon.com/Energy-Justice-Renewable-Transition-Mitigation/dp/6208170788"
+          "url": "https://www.amazon.com/Energy-Justice-Renewable-Transition-Mitigation/dp/6208170788",
+          "author": {
+            "@id": "https://salamituns.com/#person"
+          }
         },
         {
           "@type": "Book",
@@ -57,7 +63,10 @@
             "@type": "Organization",
             "name": "LAP LAMBERT Academic Publishing"
           },
-          "url": "https://www.amazon.com/Engineering-Economics-Sustainable-Supply-Chains/dp/6208171008"
+          "url": "https://www.amazon.com/Engineering-Economics-Sustainable-Supply-Chains/dp/6208171008",
+          "author": {
+            "@id": "https://salamituns.com/#person"
+          }
         },
         {
           "@type": "Book",
@@ -68,7 +77,10 @@
             "@type": "Organization",
             "name": "LAP LAMBERT Academic Publishing"
           },
-          "url": "https://www.amazon.com/Analysis-mass-transport-deposits-offshore-Montserrat/dp/6207465555"
+          "url": "https://www.amazon.com/Analysis-mass-transport-deposits-offshore-Montserrat/dp/6207465555",
+          "author": {
+            "@id": "https://salamituns.com/#person"
+          }
         },
         {
           "@type": "Book",
@@ -79,18 +91,26 @@
             "@type": "Organization",
             "name": "LAP LAMBERT Academic Publishing"
           },
-          "url": "https://www.amazon.com/dp/6207465679"
+          "url": "https://www.amazon.com/dp/6207465679",
+          "author": {
+            "@id": "https://salamituns.com/#person"
+          }
         }
       ]
     }
     </script>
 
-    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%2318181b'/%3E%3Ctext x='32' y='43' font-family='-apple-system, sans-serif' font-size='34' font-weight='600' fill='%23f7f2e7' text-anchor='middle'%3EO%3C/text%3E%3C/svg%3E">
+    <link rel="icon" href="/favicon.ico" sizes="32x32">
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 
     <title>Olatunde Salami</title>
     <script>
         (function () {
-            var saved = localStorage.getItem('theme');
+            var saved = null;
+            try {
+                saved = localStorage.getItem('theme');
+            } catch (e) {}
             var theme = saved === 'dark' || saved === 'light'
                 ? saved
                 : (window.matchMedia('(prefers-color-scheme: dark)').matches
@@ -107,6 +127,7 @@
             --accent-hover: #164a8f;
             --background: #f7f2e7;
             --rule: #e2dcc9;
+            --field-border: #8a8370;
             color-scheme: light;
         }
 
@@ -117,6 +138,7 @@
             --accent-hover: #a4c9f8;
             --background: #18181B;
             --rule: #3f3f46;
+            --field-border: #71717a;
             color-scheme: dark;
         }
 
@@ -357,7 +379,7 @@
             font: inherit;
             color: var(--text);
             background: var(--background);
-            border: 1px solid var(--rule);
+            border: 1px solid var(--field-border);
             border-radius: 6px;
         }
 
@@ -642,7 +664,9 @@
                 var next = root.getAttribute('data-theme') === 'dark'
                     ? 'light'
                     : 'dark';
-                localStorage.setItem('theme', next);
+                try {
+                    localStorage.setItem('theme', next);
+                } catch (e) {}
                 root.setAttribute('data-theme', next);
                 labelButton(next);
             });

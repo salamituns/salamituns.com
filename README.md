@@ -14,7 +14,14 @@ dependencies — one HTML file with inline CSS.
 
 ```
 salamituns.com/
-├── index.html   # The entire site
+├── index.html             # The entire site
+├── favicon.svg            # Icon (modern browsers)
+├── favicon.ico            # Icon fallback
+├── apple-touch-icon.png   # iOS home screen icon
+├── og-image.png           # Social preview image
+├── robots.txt
+├── sitemap.xml
+├── vercel.json            # www → apex redirect
 ├── README.md
 └── .gitignore
 ```
