@@ -52,8 +52,9 @@ Under `npx serve`, the contributions graph falls back to calling the public API 
 
 Everything lives in `index.html`. Content sections are marked with `<section>` tags:
 
-- **Projects** — add an `<article class="project-card">` to the top of `.project-grid`
-  (newest first). With an odd number of cards, the first spans both columns automatically.
+- **Projects** — add an `<article class="project-card">` to `.project-grid`, most important
+  first. With an odd number of cards, the first spans both columns automatically. Cards
+  sharing a row look best with descriptions of similar length.
 - **Writing** — add an `<li>` with the post URL and a
   `<time class="entry-date" datetime="YYYY-MM-DD">Mon YYYY</time>`
 - **Links** — the `li` items in the Links list
