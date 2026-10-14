@@ -1,9 +1,9 @@
 {
   "redirects": [
     {
-      "source": "/:path*",
+      "source": "/:path(.*)",
       "has": [{ "type": "host", "value": "www.salamituns.com" }],
-      "destination": "https://salamituns.com/:path*",
+      "destination": "https://salamituns.com/:path",
       "permanent": true
     }
   ]
