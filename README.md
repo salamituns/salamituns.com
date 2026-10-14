@@ -8,7 +8,8 @@ Personal site for Olatunde Salami — geoscientist and software engineer.
 
 A deliberately minimal single-page site: a short bio, selected projects, writing from my
 [Substack](https://salamituns.substack.com), and links. No frameworks, no build step, no
-dependencies — one HTML file with inline CSS.
+dependencies — one HTML file with inline CSS, plus one small serverless function that
+caches the GitHub contributions graph.
 
 ## Structure
 
@@ -21,7 +22,9 @@ salamituns.com/
 ├── og-image.png           # Social preview image
 ├── robots.txt
 ├── sitemap.xml
-├── vercel.json            # www → apex redirect
+├── api/
+│   └── contributions.js   # Edge-cached proxy for the GitHub graph
+├── vercel.json            # www → apex redirect, security headers
 ├── README.md
 └── .gitignore
 ```
@@ -38,15 +41,27 @@ salamituns.com/
 ```bash
 # Open directly, or serve for live reload
 npx serve .
+
+# Or run with the /api function, exactly as on Vercel
+vercel dev
 ```
+
+Under `npx serve`, the contributions graph falls back to calling the public API directly.
 
 ## Editing
 
 Everything lives in `index.html`. Content sections are marked with `<section>` tags:
 
-- **Projects** — add an `<li>` under the Projects list
-- **Writing** — add an `<li>` with the post URL
+- **Projects** — add an `<article class="project-card">` to the top of `.project-grid`
+  (newest first). With an odd number of cards, the first spans both columns automatically.
+- **Writing** — add an `<li>` with the post URL and a
+  `<time class="entry-date" datetime="YYYY-MM-DD">Mon YYYY</time>`
 - **Links** — the `li` items in the Links list
+
+After any content change, bump `<lastmod>` in `sitemap.xml`.
+
+If you add a new external script, image host, or fetch target, add its origin to the
+`Content-Security-Policy` header in `vercel.json`, or the browser will block it.
 
 ## Deployment
 

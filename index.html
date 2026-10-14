@@ -105,6 +105,7 @@
     <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 
     <title>Olatunde Salami</title>
+    <meta name="theme-color" content="#f7f2e7">
     <script>
         (function () {
             var saved = null;
@@ -117,6 +118,10 @@
                     ? 'dark'
                     : 'light');
             document.documentElement.setAttribute('data-theme', theme);
+            document.querySelector('meta[name="theme-color"]').setAttribute(
+                'content',
+                theme === 'dark' ? '#18181B' : '#f7f2e7'
+            );
         })();
     </script>
     <style>
@@ -197,9 +202,37 @@
         }
 
         .project-card {
+            position: relative;
             border: 1px solid var(--rule);
             border-radius: 6px;
             padding: 14px 16px;
+        }
+
+        /* With an odd number of cards, the first (newest) spans both
+           columns so the grid never ends on an empty cell. */
+        .project-card:first-child:nth-last-child(odd) {
+            grid-column: 1 / -1;
+        }
+
+        .project-card:hover {
+            border-color: var(--field-border);
+        }
+
+        /* Stretch the title link over the whole card. */
+        .project-card h3 a::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            border-radius: 6px;
+        }
+
+        .project-card h3 a:focus-visible {
+            outline: none;
+        }
+
+        .project-card h3 a:focus-visible::after {
+            outline: 2px solid var(--accent);
+            outline-offset: 2px;
         }
 
         .project-card h3 {
@@ -270,6 +303,16 @@
 
         .entries li:last-child {
             margin-bottom: 0;
+        }
+
+        .entry-date {
+            font-size: 0.85rem;
+            color: var(--muted);
+            white-space: nowrap;
+        }
+
+        .entry-date::before {
+            content: "\00B7\00A0";
         }
 
         a {
@@ -564,12 +607,12 @@
                 <li id="energy-justice">
                     <strong>Energy Justice in the Renewable Transition</strong>
                     <span class="pub-publisher">(LAP LAMBERT, 2024 · ISBN 978-620-8-17078-3)</span>
-                    <a class="pub-link" href="https://www.amazon.com/Energy-Justice-Renewable-Transition-Mitigation/dp/6208170788" target="_blank" rel="noopener noreferrer">View on Amazon &rarr;</a>
+                    <a class="pub-link" href="https://www.amazon.com/Energy-Justice-Renewable-Transition-Mitigation/dp/6208170788">View on Amazon &rarr;</a>
                 </li>
                 <li id="engineering-economics">
                     <strong>Engineering Economics of Sustainable Power Supply Chains</strong>
                     <span class="pub-publisher">(LAP LAMBERT, 2024 · ISBN 978-620-8-17100-1)</span>
-                    <a class="pub-link" href="https://www.amazon.com/Engineering-Economics-Sustainable-Supply-Chains/dp/6208171008" target="_blank" rel="noopener noreferrer">View on Amazon &rarr;</a>
+                    <a class="pub-link" href="https://www.amazon.com/Engineering-Economics-Sustainable-Supply-Chains/dp/6208171008">View on Amazon &rarr;</a>
                 </li>
             </ul>
             <h3 class="subheading">Thesis Books</h3>
@@ -577,12 +620,12 @@
                 <li id="montserrat-island-deposits">
                     <strong>Analysis of shallow mass-transport deposits offshore Montserrat Island</strong>
                     <span class="pub-publisher">(LAP LAMBERT, 2024 · ISBN 978-620-7-46555-2)</span>
-                    <a class="pub-link" href="https://www.amazon.com/Analysis-mass-transport-deposits-offshore-Montserrat/dp/6207465555" target="_blank" rel="noopener noreferrer">View on Amazon &rarr;</a>
+                    <a class="pub-link" href="https://www.amazon.com/Analysis-mass-transport-deposits-offshore-Montserrat/dp/6207465555">View on Amazon &rarr;</a>
                 </li>
                 <li id="enagi-formation-study">
                     <strong>Paleoenviromental Study of Exposed Siltstone in the Enagi Formation, Bida</strong>
                     <span class="pub-publisher">(LAP LAMBERT, 2024 · ISBN 978-620-7-46567-5)</span>
-                    <a class="pub-link" href="https://www.amazon.com/dp/6207465679" target="_blank" rel="noopener noreferrer">View on Amazon &rarr;</a>
+                    <a class="pub-link" href="https://www.amazon.com/dp/6207465679">View on Amazon &rarr;</a>
                 </li>
             </ul>
         </section>
@@ -593,14 +636,17 @@
                 <li>
                     <a href="https://salamituns.substack.com/p/ai-infrastructure-starts-with-the">AI Infrastructure Starts With the Ground</a>
                     — What building a data center site-selection engine taught me about maps, models, and false precision.
+                    <time class="entry-date" datetime="2026-09-03">Sep 2026</time>
                 </li>
                 <li>
                     <a href="https://salamituns.substack.com/p/the-oligopoly-of-pollution-a-full">The Oligopoly of Pollution</a>
                     — A full audit of who controls America's industrial emissions.
+                    <time class="entry-date" datetime="2026-04-17">Apr 2026</time>
                 </li>
                 <li>
                     <a href="https://medium.com/@salamituns/the-perils-of-over-scoping-a-project-managers-cautionary-tale-368b037f5348">The Perils of Over-Scoping</a>
                     — A project manager's cautionary tale.
+                    <time class="entry-date" datetime="2024-06-20">Jun 2024</time>
                 </li>
             </ul>
 
@@ -634,10 +680,10 @@
                 <li><a href="https://salamituns.substack.com">Substack</a></li>
                 <li><a href="https://www.linkedin.com/in/salamituns/">LinkedIn</a></li>
                 <li><a href="https://github.com/salamituns">GitHub</a></li>
-                <li><a href="https://scholar.google.com/citations?user=IRqmZIQAAAAJ&hl=en" target="_blank" rel="noopener noreferrer">Google Scholar</a></li>
-                <li><a href="https://orcid.org/0009-0002-8388-9732" target="_blank" rel="noopener noreferrer">ORCID</a></li>
-                <li><a href="https://uni-bremen.academia.edu/OlatundeSalami" target="_blank" rel="noopener noreferrer">Academia</a></li>
-                <li><a href="https://www.researchgate.net/profile/Olatunde-Salami-2" target="_blank" rel="noopener noreferrer">ResearchGate</a></li>
+                <li><a href="https://scholar.google.com/citations?user=IRqmZIQAAAAJ&hl=en">Google Scholar</a></li>
+                <li><a href="https://orcid.org/0009-0002-8388-9732">ORCID</a></li>
+                <li><a href="https://uni-bremen.academia.edu/OlatundeSalami">Academia</a></li>
+                <li><a href="https://www.researchgate.net/profile/Olatunde-Salami-2">ResearchGate</a></li>
                 <li><a href="mailto:salamituns@gmail.com">Email</a></li>
             </ul>
         </section>
@@ -651,24 +697,38 @@
         (function () {
             var root = document.documentElement;
             var button = document.getElementById('theme-toggle');
+            var themeColor = document.querySelector('meta[name="theme-color"]');
+            var systemDark = window.matchMedia('(prefers-color-scheme: dark)');
+            var chosen = false;
 
-            function labelButton(theme) {
+            try {
+                chosen = !!localStorage.getItem('theme');
+            } catch (e) {}
+
+            function applyTheme(theme) {
                 var next = theme === 'dark' ? 'light' : 'dark';
+                root.setAttribute('data-theme', theme);
+                themeColor.setAttribute('content', theme === 'dark' ? '#18181B' : '#f7f2e7');
                 button.setAttribute('aria-label', 'Switch to ' + next + ' theme');
                 button.setAttribute('aria-pressed', theme === 'dark' ? 'true' : 'false');
             }
 
-            labelButton(root.getAttribute('data-theme') || 'light');
+            applyTheme(root.getAttribute('data-theme') || 'light');
 
             button.addEventListener('click', function () {
                 var next = root.getAttribute('data-theme') === 'dark'
                     ? 'light'
                     : 'dark';
+                chosen = true;
                 try {
                     localStorage.setItem('theme', next);
                 } catch (e) {}
-                root.setAttribute('data-theme', next);
-                labelButton(next);
+                applyTheme(next);
+            });
+
+            // Follow OS light/dark changes until the visitor picks a theme.
+            systemDark.addEventListener('change', function (e) {
+                if (!chosen) applyTheme(e.matches ? 'dark' : 'light');
             });
         })();
 
@@ -678,10 +738,18 @@
             var status = document.getElementById('contrib-status');
             var profile = 'https://github.com/' + USER;
 
-            fetch('https://github-contributions-api.jogruber.de/v4/' + USER + '?y=last')
-                .then(function (res) {
+            function getJSON(url) {
+                return fetch(url).then(function (res) {
                     if (!res.ok) throw new Error('bad response');
                     return res.json();
+                });
+            }
+
+            // Edge-cached copy first; the public API directly if that fails
+            // (e.g. when the site is served as plain static files).
+            getJSON('/api/contributions')
+                .catch(function () {
+                    return getJSON('https://github-contributions-api.jogruber.de/v4/' + USER + '?y=last');
                 })
                 .then(function (data) {
                     var days = data.contributions || [];
