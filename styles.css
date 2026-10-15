@@ -1,0 +1,570 @@
+/* Self-hosted so the CSP can stay 'self'-only. Both fonts are OFL. */
+@font-face {
+    font-family: "Geist";
+    src: url("/fonts/geist.woff2") format("woff2");
+    font-weight: 100 900;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Signature";
+    src: url("/fonts/great-vibes.woff2") format("woff2");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+:root {
+    --text: #0a0a0a;
+    --muted: #737373;
+    --background: #ffffff;
+    --rule: #e5e5e5;
+    --underline: #d4d4d4;
+    --surface: #f5f5f5;
+    --shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+    color-scheme: light;
+}
+
+[data-theme="dark"] {
+    --text: #ededed;
+    --muted: #a1a1a1;
+    --background: #0a0a0a;
+    --rule: #262626;
+    --underline: #525252;
+    --surface: #1c1c1c;
+    --shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+    color-scheme: dark;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    -webkit-text-size-adjust: 100%;
+}
+
+body {
+    font-family: "Geist", -apple-system, BlinkMacSystemFont, "Segoe UI",
+        Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-size: 16px;
+    line-height: 1.7;
+    color: var(--text);
+    background: var(--background);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+}
+
+main {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 160px 24px 64px;
+}
+
+/* ---------- Type ---------- */
+
+.signature {
+    font-family: "Signature", cursive;
+    font-weight: 400;
+    font-size: clamp(3rem, 9vw, 4.75rem);
+    line-height: 1.15;
+    letter-spacing: 0;
+    /* The script's swashes overhang its box; keep them inside the column. */
+    padding: 0 0.1em;
+    margin-left: -0.1em;
+}
+
+.page-title {
+    font-size: 2rem;
+    font-weight: 500;
+    letter-spacing: -0.03em;
+    line-height: 1.2;
+}
+
+.lede {
+    margin-top: 0.75rem;
+    color: var(--muted);
+}
+
+h2 {
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--muted);
+    margin: 3.5rem 0 1rem;
+}
+
+.prose {
+    margin-top: 2rem;
+}
+
+.prose p {
+    color: var(--muted);
+    margin-bottom: 1rem;
+}
+
+/* The home page carries two bios: the full one, and a two-line one
+   for phones, where the whole page fits on one screen. */
+.bio-mobile {
+    display: none;
+}
+
+/* Links stay monochrome; a faint underline marks them. */
+a {
+    color: var(--text);
+    text-decoration: underline;
+    text-decoration-color: var(--underline);
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+}
+
+a:hover {
+    text-decoration-color: currentColor;
+}
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible {
+    outline: 2px solid var(--text);
+    outline-offset: 2px;
+    border-radius: 4px;
+}
+
+ul {
+    list-style: none;
+}
+
+/* ---------- Lists (projects, writing, books) ---------- */
+
+.rows li {
+    position: relative;
+    padding: 1.1rem 0;
+    border-top: 1px solid var(--rule);
+    scroll-margin-top: 6rem;
+}
+
+.rows li:last-child {
+    border-bottom: 1px solid var(--rule);
+}
+
+.row-title {
+    font-weight: 500;
+    text-decoration: none;
+}
+
+/* Stretch the title link over the whole row. */
+.row-title::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+}
+
+.rows li:hover .row-title {
+    text-decoration: underline;
+    text-decoration-color: currentColor;
+}
+
+.row-meta {
+    float: right;
+    margin-left: 1rem;
+    font-size: 0.85rem;
+    color: var(--muted);
+    font-variant-numeric: tabular-nums;
+}
+
+.row-desc {
+    margin-top: 0.2rem;
+    font-size: 0.925rem;
+    line-height: 1.6;
+    color: var(--muted);
+}
+
+.inline-links li {
+    display: inline;
+}
+
+.inline-links li + li::before {
+    content: "\00A0\00B7\00A0";
+    color: var(--muted);
+}
+
+/* ---------- GitHub graph ---------- */
+
+.contrib-meta {
+    font-size: 0.85rem;
+    color: var(--muted);
+    margin-bottom: 0.75rem;
+}
+
+.contrib-wrap {
+    overflow-x: auto;
+    padding-bottom: 4px;
+}
+
+.contrib-hint {
+    display: none;
+}
+
+.contrib-graph {
+    display: grid;
+    grid-template-rows: repeat(7, 9px);
+    grid-auto-flow: column;
+    grid-auto-columns: 9px;
+    gap: 3px;
+    width: max-content;
+}
+
+.contrib-cell {
+    width: 9px;
+    height: 9px;
+    border-radius: 2px;
+    background: var(--surface);
+}
+
+.contrib-pad {
+    background: transparent;
+}
+
+.contrib-cell[data-level="1"] {
+    background: color-mix(in srgb, var(--text) 22%, var(--surface));
+}
+
+.contrib-cell[data-level="2"] {
+    background: color-mix(in srgb, var(--text) 45%, var(--surface));
+}
+
+.contrib-cell[data-level="3"] {
+    background: color-mix(in srgb, var(--text) 70%, var(--surface));
+}
+
+.contrib-cell[data-level="4"] {
+    background: var(--text);
+}
+
+/* ---------- Subscribe ---------- */
+
+.subscribe {
+    display: flex;
+    gap: 8px;
+    margin-top: 2rem;
+}
+
+.subscribe input[type="email"] {
+    flex: 1;
+    min-width: 0;
+    min-height: 44px;
+    padding: 0 0.9rem;
+    font: inherit;
+    color: var(--text);
+    background: var(--background);
+    border: 1px solid var(--rule);
+    border-radius: 10px;
+}
+
+.subscribe input[type="email"]::placeholder {
+    color: var(--muted);
+}
+
+.subscribe button {
+    min-height: 44px;
+    padding: 0 1.1rem;
+    font: inherit;
+    font-weight: 500;
+    color: var(--background);
+    background: var(--text);
+    border: 0;
+    border-radius: 10px;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.subscribe button:hover {
+    opacity: 0.85;
+}
+
+.subscribe-note {
+    margin-top: 0.6rem;
+    font-size: 0.85rem;
+    color: var(--muted);
+}
+
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* ---------- Header + pill nav ---------- */
+
+/* Fades content out as it scrolls under the floating nav. */
+.top-fade {
+    position: fixed;
+    inset: 0 0 auto;
+    height: 96px;
+    background: linear-gradient(var(--background) 30%, transparent);
+    pointer-events: none;
+    z-index: 8;
+}
+
+.site-header {
+    position: fixed;
+    inset: 16px 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 28px;
+    pointer-events: none;
+    z-index: 9;
+}
+
+.local-zone,
+.local-clock {
+    position: absolute;
+    font-size: 0.875rem;
+    color: var(--text);
+    font-variant-numeric: tabular-nums;
+}
+
+.local-zone {
+    left: 28px;
+}
+
+.local-clock {
+    right: 28px;
+}
+
+.pill {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    padding: 4px;
+    background: var(--background);
+    border: 1px solid var(--rule);
+    border-radius: 999px;
+    box-shadow: var(--shadow);
+    pointer-events: auto;
+}
+
+.pill-link,
+.theme-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 40px;
+    min-width: 40px;
+    justify-content: center;
+    padding: 0 12px;
+    font: inherit;
+    font-size: 0.875rem;
+    color: var(--text);
+    text-decoration: none;
+    background: transparent;
+    border: 0;
+    border-radius: 999px;
+    cursor: pointer;
+}
+
+.pill-link:hover,
+.theme-toggle:hover {
+    background: var(--surface);
+}
+
+.pill-link[aria-current="page"] {
+    background: var(--surface);
+    box-shadow: inset 0 0 0 1px var(--rule);
+}
+
+.pill-link svg,
+.theme-toggle svg {
+    width: 16px;
+    height: 16px;
+    flex: none;
+}
+
+.pill-sep {
+    width: 1px;
+    height: 20px;
+    margin: 0 4px;
+    background: var(--rule);
+}
+
+.theme-toggle svg {
+    display: none;
+}
+
+[data-theme="light"] .theme-toggle .icon-moon,
+[data-theme="dark"] .theme-toggle .icon-sun {
+    display: block;
+}
+
+/* ---------- Footer ---------- */
+
+footer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    margin-top: 6rem;
+    font-size: 0.875rem;
+    color: var(--muted);
+}
+
+footer .owner {
+    color: var(--text);
+}
+
+.socials {
+    display: flex;
+    gap: 4px;
+}
+
+.socials a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    color: var(--muted);
+    border-radius: 10px;
+}
+
+.socials a:hover {
+    color: var(--text);
+    background: var(--surface);
+}
+
+.socials svg {
+    width: 18px;
+    height: 18px;
+}
+
+/* ---------- Motion ---------- */
+
+@media (prefers-reduced-motion: no-preference) {
+    html {
+        scroll-behavior: smooth;
+    }
+
+    main {
+        animation: reveal 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+    }
+
+    body,
+    .pill,
+    .top-fade {
+        transition: background 0.2s ease, color 0.2s ease,
+            border-color 0.2s ease;
+    }
+}
+
+@keyframes reveal {
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+        filter: blur(4px);
+    }
+}
+
+/* ---------- Small screens: nav moves to the bottom ---------- */
+
+@media (max-width: 768px) {
+    main {
+        padding-top: 72px;
+        padding-bottom: 120px;
+    }
+
+    /* Home: name, short bio, footer, nav, all on one screen. */
+    .home main {
+        display: flex;
+        flex-direction: column;
+        min-height: 100dvh;
+        padding-top: clamp(24px, 6dvh, 56px);
+        padding-bottom: calc(96px + env(safe-area-inset-bottom));
+    }
+
+    .home .signature {
+        font-size: clamp(2.75rem, 15vw, 4.5rem);
+        line-height: 1.05;
+    }
+
+    .home .prose {
+        margin-top: clamp(12px, 3dvh, 28px);
+    }
+
+    .home footer {
+        margin-top: auto;
+        padding-top: 2rem;
+    }
+
+    .bio-desktop {
+        display: none;
+    }
+
+    .bio-mobile {
+        display: block;
+    }
+
+    .bio-mobile p {
+        font-size: clamp(15px, 2dvh, 17px);
+        line-height: 1.55;
+        margin-bottom: clamp(8px, 1.5dvh, 14px);
+    }
+
+    .top-fade,
+    .local-zone,
+    .local-clock {
+        display: none;
+    }
+
+    .site-header {
+        inset: auto 0 max(16px, env(safe-area-inset-bottom));
+        padding: 0 16px;
+    }
+
+    /* Icons only; the labels stay readable to screen readers. */
+    .pill-label {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+    }
+
+    .pill-link,
+    .theme-toggle {
+        padding: 0;
+        min-width: 44px;
+        min-height: 44px;
+    }
+
+    .socials a {
+        width: 44px;
+        height: 44px;
+    }
+
+    .subscribe {
+        flex-direction: column;
+    }
+
+    .row-meta {
+        float: none;
+        display: block;
+        margin: 0 0 0.15rem;
+    }
+
+    .contrib-hint {
+        display: block;
+        margin-top: 0.5rem;
+        font-size: 0.85rem;
+        color: var(--muted);
+    }
+}
