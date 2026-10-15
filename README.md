@@ -23,7 +23,8 @@ salamituns.com/
 ├── publications.html      # /publications — books + research profiles
 ├── styles.css             # Shared styles (tokens at the top)
 ├── site.js                # Theme toggle, header clock, GitHub graph
-├── fonts/                 # Self-hosted Geist + Great Vibes (OFL)
+├── fonts/                 # Self-hosted Geist, Geist Mono, Great Vibes (OFL)
+├── images/work/           # Project previews on /work (1200×750 WebP)
 ├── api/
 │   └── contributions.js   # Edge-cached proxy for the GitHub graph
 ├── vercel.json            # cleanUrls, www → apex redirect, security headers
@@ -37,10 +38,13 @@ locally). Old single-page anchors such as `/#energy-justice` redirect to `/publi
 
 ## Design notes
 
-- Geist for text; Great Vibes for the signature on the home page
+- Geist for text, Geist Mono for data (clock, dates, index numbers), Great Vibes for the
+  signature on the home page
+- Three text tones: `--text`, `--muted`, and `--faint` (decoration only, below WCAG contrast)
 - Pure white / near-black, gray body text, links marked only by a faint underline
 - ~680px measure; the pill nav floats at the top on desktop and the bottom on phones (≤768px)
-- Content fades up on load (skipped under `prefers-reduced-motion`)
+- Content fades up on load in a stagger: the title rises slowest, then each block a beat
+  apart (skipped under `prefers-reduced-motion`)
 
 ## Local development
 
@@ -59,7 +63,9 @@ Under `npx serve`, the contributions graph falls back to calling the public API 
 Each page is self-contained HTML. The header and footer are repeated in all four pages,
 so change them in every file.
 
-- **Projects** (`work.html`) — add an `<li>` to the `.rows` list, most recent first.
+- **Projects** (`work.html`) — copy an `<li class="project">`: name, `.row-index` number,
+  `.row-kind` label, `.row-desc`, and a preview. Make the preview by screenshotting the
+  site at 1440×900, then `cwebp -resize 1200 750 -q 78 shot.png -o images/work/name.webp`.
 - **Writing** (`writing.html`) — add an `<li>` with
   `<time class="row-meta" datetime="YYYY-MM-DD">Mon YYYY</time>`, a `.row-title` link,
   and a `.row-desc` line.
