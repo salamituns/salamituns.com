@@ -10,7 +10,6 @@ temp
 vercel.json
 README.md
 Dockerfile
-nginx.conf
 node_modules
 dist
 build
