@@ -84,6 +84,32 @@ are self-hosted for the same reason.
 Pushes to `main` deploy automatically via Vercel. The `salamituns.com` domain is managed
 in Vercel (domain settings, DNS).
 
+## Lab release
+
+In addition to Vercel (kept as the fallback host alongside `vercel.json` and `api/`),
+pushes to `main` (and manual `workflow_dispatch` runs) trigger
+`.github/workflows/lab-release.yml`:
+
+1. **Container build (`Dockerfile` + `nginx.conf`):** Packages only the static site
+   assets (`.dockerignore` excludes `.git`, `api`, `tmp`, `vercel.json`, `README.md`, and
+   `.github`) into `nginxinc/nginx-unprivileged` listening on port `8080` as `USER 101`,
+   configured for a read-only root filesystem (`/tmp` and `/var/cache/nginx` as
+   `emptyDir` mounts), clean URLs, `/healthz`, fast `404` on `/api/contributions` (so
+   `site.js` falls back to the public contributions API in the browser), and the exact
+   security headers from `vercel.json`.
+2. **Gate + SBOM:** Scans the built image with Trivy (failing on `HIGH` or `CRITICAL`
+   vulnerabilities with available fixes) and generates an SPDX JSON SBOM with Syft.
+3. **GHCR push + keyless Sigstore signing:** Pushes
+   `ghcr.io/<owner>/personal-site:<commit-sha>` and `:main` using `GITHUB_TOKEN`,
+   resolves the pushed manifest digest, and uses GitHub Actions OIDC (`id-token: write`,
+   no stored secrets) with Cosign 3.x to keyless-sign the digest and attach the SPDX
+   SBOM attestation (`--type spdxjson`).
+4. **Lab verification and re-signing:** The homelab CI pipeline verifies the GHCR image's
+   keyless signature and SPDX attestation against this repository and exact workflow path
+   (`.github/workflows/lab-release.yml`), copies the verified digest into the lab's
+   internal Nexus registry, re-signs it with the lab's internal Cosign key for Kyverno
+   admission enforcement, and opens a digest-pinned promotion PR.
+
 ## License
 
 © 2026 Olatunde Salami. All rights reserved.
